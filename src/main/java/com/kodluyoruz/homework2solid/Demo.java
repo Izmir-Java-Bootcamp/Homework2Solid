@@ -10,6 +10,7 @@ import com.kodluyoruz.homework2solid.service.CheckoutService;
 import com.kodluyoruz.homework2solid.service.discount.Buy2Take3Discount;
 import com.kodluyoruz.homework2solid.service.discount.Discount;
 import com.kodluyoruz.homework2solid.service.discount.PercentageDiscount;
+import com.kodluyoruz.homework2solid.service.payment.PaymentStrategy;
 import com.kodluyoruz.homework2solid.service.writer.BillWriter;
 import com.kodluyoruz.homework2solid.service.writer.BillWriterFactory;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class Demo implements CommandLineRunner {
     private final Scanner scanner;
     private final CheckoutService checkoutService;
     private final BillWriterFactory billWriterFactory;
+    private final PaymentStrategy paymentStrategy;
 
 
     @Override
@@ -100,6 +102,8 @@ public class Demo implements CommandLineRunner {
 
         BillWriter billWriter = billWriterFactory.getBillWriter(type);
         billWriter.printBill(bill);
+
+        paymentStrategy.pay(bill);
 
     }
 
