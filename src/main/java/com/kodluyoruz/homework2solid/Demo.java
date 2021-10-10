@@ -5,15 +5,18 @@ import com.kodluyoruz.homework2solid.model.Seller;
 import com.kodluyoruz.homework2solid.model.cart.Cart;
 import com.kodluyoruz.homework2solid.model.cart.CartItem;
 import com.kodluyoruz.homework2solid.model.checkout.Bill;
+import com.kodluyoruz.homework2solid.model.enums.BillWriterType;
 import com.kodluyoruz.homework2solid.service.CheckoutService;
 import com.kodluyoruz.homework2solid.service.discount.Buy2Take3Discount;
 import com.kodluyoruz.homework2solid.service.discount.Discount;
 import com.kodluyoruz.homework2solid.service.discount.PercentageDiscount;
 import com.kodluyoruz.homework2solid.service.writer.BillWriter;
+import com.kodluyoruz.homework2solid.service.writer.BillWriterFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 @Component
@@ -21,7 +24,7 @@ import java.util.Scanner;
 public class Demo implements CommandLineRunner {
     private final Scanner scanner;
     private final CheckoutService checkoutService;
-    private final BillWriter billWriter;
+    private final BillWriterFactory billWriterFactory;
 
 
     @Override
@@ -91,6 +94,11 @@ public class Demo implements CommandLineRunner {
         }
 
         Bill bill = checkoutService.checkout(cart);
+
+        System.out.println("Please choose a type " + Arrays.toString(BillWriterType.values()));
+        BillWriterType type = BillWriterType.valueOf(scanner.nextLine());
+
+        BillWriter billWriter = billWriterFactory.getBillWriter(type);
         billWriter.printBill(bill);
 
     }
